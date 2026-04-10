@@ -2,11 +2,12 @@ import User from "../Model/userSchema.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const register=(req,res)=>{
+export const register=async(req,res)=>{
     try{
         const {name,email,password}=req.body;
-        if(email){
-            return res.status(400).send("Email already exists");
+        const existingUser=await User.findOne({email});
+        if(existingUser){
+            return res.status(400).send("User already exists");
         }
         const hashpassword= bcrypt.hashSync(password,10);
         const user=new User({name,email,password:hashpassword});
@@ -18,4 +19,26 @@ export const register=(req,res)=>{
     }
 }
 
+export const login=async(req,res)=>{
+    try{
+        const {email,password}=req.body;
+        const user=await User.findOne({email});
+        if(!user){
+            return res.status(400).send("User not found");
+        }
+        const matchPassword=await bcrypt.compare(password,user.password);
+        if(!matchPassword){
+            return res.status(400).send("Invalid password");
+        }
+        const token= jwt.sign({_id:user._id},process.env.SECERT_KEY,{expiresIn:"1h"})
+        user.token=token;
+        await user.save();
+        res.status(200).send({message:"User login successfully",token:token,role:user.role});
 
+       
+        
+
+    }catch(error){
+        res.status(503).send({message:"user not login error in user login"})
+    }
+}
