@@ -12,7 +12,7 @@ export const register=async(req,res)=>{
         const hashpassword= bcrypt.hashSync(password,10);
         const user=new User({name,email,password:hashpassword});
         await user.save();
-        res.status(201).send("User registered successfully");
+        res.status(201).send("User registered successfully",user);
 
     }catch(error){
          res.status(503).send({message:"user not registered error in user register"})
@@ -30,10 +30,10 @@ export const login=async(req,res)=>{
         if(!matchPassword){
             return res.status(400).send("Invalid password");
         }
-        const token= jwt.sign({_id:user._id},process.env.SECERT_KEY,{expiresIn:"1h"})
+        const token= jwt.sign({_id:user._id,role:user.role},process.env.SECERT_KEY,{expiresIn:"1h"})
         user.token=token;
         await user.save();
-        res.status(200).send({message:"User login successfully",token:token,role:user.role});
+        res.status(200).send({message:"User login successfully",token,user});
 
        
         
