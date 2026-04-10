@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const protect = async (req, res) => {
+export const protect = async (req, res, next) => {
 
     const token = req.headers.authorization.split(" ")[1];
     //“In the backend, we receive the token from the frontend through the Axios instance configuration, whereas in Postman we manually include the token in the request headers.”
@@ -19,8 +19,18 @@ export const protect = async (req, res) => {
         next();
 
 
+
     } catch (error) {
         res.status(500).json({ message: error.message });
 
+    }
+}
+
+export const admin = (req, res, next) => {
+    //“next() passes control to the next middleware while keeping the same req object, so data like req.user set in one function is available in the next.”
+    if (req.user && req.user.role === "admin") {
+        next();
+    } else {
+        res.status(500).json({ message: "admin access only" });
     }
 }
