@@ -1,12 +1,22 @@
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-  questionText: String,
-  options: [String],
-  correctAnswer: String,
+  questionText: {
+    type: String,
+    required: true
+  },
+  options: {
+    type: [String],
+    default: []
+  },
+  correctAnswer: {
+    type: String,
+    required: true
+  },
   type: {
     type: String,
-    enum: ["mcq", "coding"]
+    enum: ["mcq", "coding"],
+    required: true
   }
 }, { timestamps: true });
 

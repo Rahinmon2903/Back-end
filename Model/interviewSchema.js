@@ -3,15 +3,18 @@ import mongoose from "mongoose";
 const interviewSchema=new mongoose.Schema({
     title:{
         type:String,
+         required: true
         
     },
     role:{
         type:String,
+         required: true
         
     },
     difficulty:{
         type:String,
         enum:["easy","medium","hard"],
+         required: true
         
         
     },
