@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import authRoute from "./Router/authRoute.js";
 import interviewRoute from "./Router/interviewRoute.js";
+import questionRoute from "./Router/questionRoute.js";
 
 dotenv.config();
 dbConnect();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use("/api/auth",authRoute);
 app.use("/api/interview",interviewRoute);
+app.use("/api/questions",questionRoute);
 
 app.get("/",(req,res)=>{
     res.status(200).send("Welcome to my backend");
