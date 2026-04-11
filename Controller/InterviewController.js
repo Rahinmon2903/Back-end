@@ -15,4 +15,25 @@ export const createInterview=async(req,res)=>{
         res.status(503).json({message:"error in creating interview"});
         
     }
+
+
 }
+
+
+export const getInterview = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const interview = await Interview.findById(id)
+      .populate("questions");
+
+    res.status(200).json({
+      interview
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching interview"
+    });
+  }
+};
