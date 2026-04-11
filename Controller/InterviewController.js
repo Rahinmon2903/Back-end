@@ -4,7 +4,7 @@ export const createInterview=async(req,res)=>{
     try {
         const {title,role,difficulty}=req.body;
 
-        const interview =await Interview.create({title,role,difficulty});
+        const interview =await Interview.create({title,role,difficulty,createdBy:req.user._id});
 
         res.status(201).json({
             message:"Interview created successfully",
