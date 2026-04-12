@@ -23,3 +23,12 @@ export const submitInterview = async (req, res) => {
         res.status(500).json({ message: "Error submitting interview" });
     }
 };
+
+export const getMyResults = async (req, res) => {
+    try {
+        const results = await Result.find({ user: req.user._id }).populate("interview");
+        res.status(200).json({message:"Results fetched successfully", results });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching results" });
+    }
+};
