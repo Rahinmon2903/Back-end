@@ -6,7 +6,15 @@ dotenv.config();
 
 export const protect = async (req, res, next) => {
 
-    const token = req.headers.authorization.split(" ")[1];
+
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "Token missing" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
     //“In the backend, we receive the token from the frontend through the Axios instance configuration, whereas in Postman we manually include the token in the request headers.”
     if (!token) {
         return res.status(401).json({ message: "token missing" });
@@ -26,7 +34,7 @@ export const protect = async (req, res, next) => {
     }
 }
 
-export const admin = (req, res, next) => {
+export const adminOnly = (req, res, next) => {
     //“next() passes control to the next middleware while keeping the same req object, so data like req.user set in one function is available in the next.”
     if (req.user && req.user.role === "admin") {
         next();

@@ -4,7 +4,7 @@ export const createInterview=async(req,res)=>{
     try {
         const {title,role,difficulty}=req.body;
 
-        const interview =await Interview.create({title,role,difficulty,createdBy:req.user._id});
+        const interview =await Interview.create({title,role,difficulty, createdBy:req.user._id});
 
         res.status(201).json({
             message:"Interview created successfully",
@@ -36,4 +36,18 @@ export const getInterview = async (req, res) => {
       message: "Error fetching interview"
     });
   }
+};
+
+export const getAllInterviews = async (req, res) => {
+    try {
+        const interviews = await Interview.find();
+
+        res.status(200).json({
+            message: "All interviews fetched",
+            interviews
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching interviews" });
+    }
 };
