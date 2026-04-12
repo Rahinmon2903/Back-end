@@ -1,6 +1,7 @@
 import express from "express";
 import { protect, adminOnly } from "../Middleware/authMiddleware.js";
-import { createInterview ,getInterview,getAllInterviews} from "../Controllers/interviewController.js";
+import { createInterview, getAllInterviews, getInterview } from "../Controllers/InterviewController.js";
+
 
 
 

@@ -44,3 +44,12 @@ export const getResultById = async (req, res) => {
         res.status(500).json({ message: "Error fetching result by id" });
     }
 };
+
+export const Leaderboard = async (req, res) => {
+    try {
+        const results = await Result.find().sort({ score: -1 }).limit(10).populate("user", "name");
+        res.status(200).json({message:"Leaderboard fetched successfully", results });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching leaderboard" });
+    }
+};
