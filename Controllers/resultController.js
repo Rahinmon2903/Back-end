@@ -32,3 +32,15 @@ export const getMyResults = async (req, res) => {
         res.status(500).json({ message: "Error fetching results" });
     }
 };
+
+export const getResultById = async (req, res) => {
+    try {
+
+        const {id}=req.params
+        const result = await Result.findById(id).populate("interview", "title role").populate("answers.questionId", "questionText options correctAnswer");
+        res.status(200).json({message:"Result fetched successfully by id", result });
+        
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching result by id" });
+    }
+};
