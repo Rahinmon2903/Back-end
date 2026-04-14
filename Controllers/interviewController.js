@@ -41,6 +41,7 @@ export const getInterview = async (req, res) => {
 export const getAllInterviews = async (req, res) => {
     try {
         const interviews = await Interview.find();
+        //in this place we can choose whether a user can attend a interview for a single time or multiple time
 
         res.status(200).json({
             message: "All interviews fetched",
