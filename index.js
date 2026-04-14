@@ -5,7 +5,7 @@ import cors from "cors";
 import authRoute from "./Router/authRoute.js";
 import interviewRoute from "./Router/interviewRoute.js";
 import questionRoute from "./Router/questionRoute.js";
-import resultRoute from "./Router/resultRoute.js";
+import resultRoute from "./Router/resultRouter.js";
 
 dotenv.config();
 dbConnect();
