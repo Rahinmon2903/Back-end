@@ -5,9 +5,10 @@ import Question from "../Model/questionSchema.js";
 export const addQuestion = async (req, res) => {
     try {
         const { questionText, options, correctAnswer, type,interviewId } = req.body;
+        //created question
         const question = await Question.create({ questionText, options, correctAnswer, type });
        
-
+       //add question to interview
         const interview=await Interview.findById(interviewId);
           if (!interview) {
             return res.status(404).json({ message: "Interview not found" });
